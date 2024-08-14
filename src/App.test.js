@@ -56,4 +56,27 @@ describe("App Component", () => {
     const resultado = screen.getByText(/resultado bmr:/i);
     expect(resultado).toHaveTextContent("Resultado BMR: 1724.05"); // Ajuste conforme o cálculo esperado
   });
+
+  test("calcular a TMB corretamente para mulheres", () => {
+    render(<App />);
+  
+    // Simula a entrada de dados
+    const pesoInput = screen.getByLabelText(/peso/i);
+    const alturaInput = screen.getByLabelText(/altura/i);
+    const idadeInput = screen.getByLabelText(/idade/i);
+    const sexoInput = screen.getByLabelText(/sexo/i);
+    const calcularButton = screen.getByText(/calcular bmr/i);
+  
+    fireEvent.change(pesoInput, { target: { value: "60" } });
+    fireEvent.change(alturaInput, { target: { value: "165" } });
+    fireEvent.change(idadeInput, { target: { value: "30" } });
+    fireEvent.change(sexoInput, { target: { value: "female" } });
+  
+    fireEvent.click(calcularButton);
+  
+    // Verifica se o resultado da TMB é o esperado
+    const resultado = screen.getByText(/resultado bmr/i);
+    expect(resultado).toHaveTextContent("Resultado BMR: 1383.68");
+  });
+  
 });
